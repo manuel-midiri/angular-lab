@@ -1,92 +1,85 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { LoginRequest, LoginResponse, RefreshTokenRequest } from '../models/general.models';
-import { Observable, catchError, tap, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { LoginRequest, RefreshTokenRequest, User } from '../models/general.models';
+import { Observable, catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private API_URL: string = 'https://frontendtest-backend.azurewebsites.net/api/Users';
-  private ACCESS_TOKEN: string = '';
-  private REFRESH_TOKEN: string = '';
+  public userDetail: User = {} as User;
+  public isAdmin: boolean = false;
 
   constructor(private http: HttpClient) { }
 
-  //TOKEN
-  getToken(): string {
-    return localStorage.getItem(this.ACCESS_TOKEN)!;
+  //GESTIONE TOKEN
+  public getToken(): string {
+    return localStorage.getItem('access_token_labanalysis')!;
   }
 
-  getRefreshToken(): string {
-    return localStorage.getItem(this.REFRESH_TOKEN)!;
+  public getRefreshToken(): string {
+    return localStorage.getItem('refresh_token_labanalysis')!;
   }
 
-  saveToken(token: any): void {
-    localStorage.setItem(this.ACCESS_TOKEN, token);
+  public saveToken(token: any, expirationDate: any): void {
+    localStorage.setItem('access_token_labanalysis', token);
+    localStorage.setItem('access_token_labanalysis_expirationDate', expirationDate);
   }
 
-  saveRefreshToken(refreshToken: any): void {
-    localStorage.setItem(this.REFRESH_TOKEN, refreshToken);
+  public saveRefreshToken(refreshToken: any, expirationDate: any): void {
+    localStorage.setItem('refresh_token_labanalysis', refreshToken);
+    localStorage.setItem('refresh_token_labanalysis_expirationDate', expirationDate);
   }
 
-  removeToken(): void {
-    localStorage.removeItem(this.ACCESS_TOKEN);
+  public removeToken(): void {
+    localStorage.removeItem('access_token_labanalysis');
+    localStorage.removeItem('access_token_labanalysis_expirationDate');
   }
 
-  removeRefreshToken(): void {
-    localStorage.removeItem(this.REFRESH_TOKEN);
+  public removeRefreshToken(): void {
+    localStorage.removeItem('refresh_token_labanalysis');
+    localStorage.removeItem('refresh_token_labanalysis_expirationDate');
   }
 
   //LOGIN
-  login(loginData: any): Observable<any> {
+  public login(loginData: LoginRequest): Observable<any> {
     this.removeToken();
     this.removeRefreshToken();
-    // const body = new HttpParams()
-    //   .set('email', loginData.email)
-    //   .set('password', loginData.password)
-    //   .set('grant_type', 'password');
     const headers: any = new Headers();
     headers.append('Content-Type', 'application/json');
     return this.http.post(`${this.API_URL}/Login`, loginData, { headers })
-      .pipe(
-        tap((res: any) => {
-          this.saveToken(res.access_token);
-          this.saveRefreshToken(res.refresh_token);
-        }),
-        catchError((error: any) => this.handleError(error))
-      );
   }
 
   //REFRESH TOKEN
-  refreshToken(refreshData: any): Observable<any> {
+  public refreshToken(refreshData: RefreshTokenRequest): Observable<any> {
     this.removeToken();
     this.removeRefreshToken();
-    const body = new HttpParams()
-      .set('refresh_token', refreshData.refresh_token)
-      .set('grant_type', 'refresh_token');
     const headers: any = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post<any>(`${this.API_URL}/RefreshToken`, body, { headers })
-      .pipe(
-        tap((res: any) => {
-          this.saveToken(res.access_token);
-          this.saveRefreshToken(res.refresh_token);
-        }),
-        catchError((error: any) => this.handleError(error))
-      );
+    return this.http.post<any>(`${this.API_URL}/RefreshToken`, refreshData, { headers })
   }
 
   //LOGOUT
-  logout(): Observable<any> {
+  public logout(): Observable<any> {
+    const headers: any = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', 'Bearer ' + this.getToken());
     this.removeToken();
     this.removeRefreshToken();
-    return this.http.get(`${this.API_URL}/Logout`);
+    return this.http.get(`${this.API_URL}/Logout`, { headers });
   }
 
-  secured(): Observable<any> {
+  public secured(): Observable<any> {
     return this.http.get<any>(this.API_URL + 'secret')
       .pipe(catchError((error: any) => this.handleError(error)));
+  }
+
+  public userInfo(): Observable<any> {
+    const headers: any = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', 'Bearer ' + this.getToken());
+    return this.http.get(`${this.API_URL}/Me`, { headers })
   }
 
   //GESTIONE ERRORI
@@ -96,13 +89,9 @@ export class AuthService {
     } else {
       console.error(
         `Backend ritorna codice ${error.status}, ` +
-        `il body è: ${error.error}`);
+        `il body è: ${error}`);
     }
     return throwError(() => new Error('Per favore riprova più tardi.'));
-  }
-
-  private static log(message: string): any {
-    console.log(message);
   }
   
 }

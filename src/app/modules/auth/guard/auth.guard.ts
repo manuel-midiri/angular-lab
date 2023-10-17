@@ -1,15 +1,11 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  Router,
-  RouterStateSnapshot,
-} from '@angular/router';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard {
+
   constructor(public authService: AuthService, public router: Router) {}
 
   canActivate(): boolean {
@@ -26,4 +22,5 @@ export class AuthGuard {
 
     return false;
   }
+  
 }
