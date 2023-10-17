@@ -13,12 +13,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { AuthInterceptor } from './auth.interceptor';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { BreadcrumbComponent } from './core/menu/breadcrumb/breadcrumb.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent
+    MenuComponent,
+    BreadcrumbComponent
   ],
   imports: [
     BrowserModule,

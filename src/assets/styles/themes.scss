@@ -1,15 +1,15 @@
 @use '@angular/material' as mat;
 
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons+Outlined';
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
-     
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Roboto:wght@400;500;700;900&display=swap&subset=latin');
+
 $fontConfig: (
-  display-4: mat.define-typography-level(112px, 112px, 300, 'Roboto', -0.0134em),
-  display-3: mat.define-typography-level(56px, 56px, 400, 'Roboto', -0.0089em),
-  display-2: mat.define-typography-level(45px, 48px, 400, 'Roboto', 0.0000em),
-  display-1: mat.define-typography-level(34px, 40px, 400, 'Roboto', 0.0074em),
-  headline: mat.define-typography-level(24px, 32px, 400, 'Roboto', 0.0000em),
-  title: mat.define-typography-level(20px, 32px, 500, 'Roboto', 0.0075em),
+  display-4: mat.define-typography-level(112px, 112px, 300, 'Merriweather', -0.0134em),
+  display-3: mat.define-typography-level(56px, 56px, 400, 'Merriweather', -0.0089em),
+  display-2: mat.define-typography-level(45px, 48px, 400, 'Merriweather', 0.0000em),
+  display-1: mat.define-typography-level(34px, 40px, 400, 'Merriweather', 0.0074em),
+  headline: mat.define-typography-level(24px, 32px, 400, 'Merriweather', 0.0000em),
+  title: mat.define-typography-level(20px, 32px, 500, 'Merriweather', 0.0075em),
   subheading-2: mat.define-typography-level(16px, 28px, 400, 'Roboto', 0.0094em),
   subheading-1: mat.define-typography-level(15px, 24px, 500, 'Roboto', 0.0067em),
   body-2: mat.define-typography-level(14px, 24px, 500, 'Roboto', 0.0179em),
