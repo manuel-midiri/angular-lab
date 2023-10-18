@@ -4,13 +4,14 @@ import { Router } from '@angular/router';
 import { DialogDeleteComponent } from '../dialog-delete/dialog-delete.component';
 import { Sample } from 'src/app/models/general.models';
 import { DialogCreateComponent } from '../dialog-create/dialog-create.component';
+import { DialogCreateTestComponent } from '../dialog-create-test/dialog-create-test.component';
 
 @Component({
-  selector: 'app-table',
-  templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss']
+  selector: 'app-table-test',
+  templateUrl: './table-test.component.html',
+  styleUrls: ['./table-test.component.scss']
 })
-export class TableComponent {
+export class TableTestComponent {
   @Input() dataSource: any;
   @Input() displayedColumns: string[] = [];
   @Input() isAdmin: boolean = false;
@@ -45,8 +46,8 @@ export class TableComponent {
   }
 
   public openDialogEdit(element: Sample): void {
-    const dialogRef = this.dialog.open(DialogCreateComponent, {
-      data: {name: element.name, description: element.description},
+    const dialogRef = this.dialog.open(DialogCreateTestComponent, {
+      data: {name: element.name},
     });
 
     dialogRef.afterClosed().subscribe(result => {

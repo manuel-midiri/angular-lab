@@ -19,11 +19,8 @@
         </div>
     </div>
     <div class="container-sample__container-list">
-        <ng-container *ngIf="samples && samples.items && samples.items.length; else noData">
+        <ng-container *ngIf="samples && samples.items && samples.items.length">
             <app-table [dataSource]="samples.items" [displayedColumns]="displayedColumns" [isAdmin]="isAdmin" (isDelete)="deleteSample($event)" (isEdit)="editSample($event)"></app-table>
         </ng-container>
-        <ng-template #noData>
-            <p class="container-sample__container-list__no-data">Non ci sono risultati.</p>
-        </ng-template>
     </div>
 </div>

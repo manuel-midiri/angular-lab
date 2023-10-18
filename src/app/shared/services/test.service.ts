@@ -17,9 +17,9 @@ export class TestService {
     return this.http.get<TestListResult>(`${this.baseUrl}`, { headers });
   }
 
-  getTestById(id: string): Observable<Test> {
+  getTestById(idTest: string): Observable<Test> {
     const headers = this.authService.addToken();
-    return this.http.get<Test>(`${this.baseUrl}/${id}`, { headers });
+    return this.http.get<Test>(`${this.baseUrl}/${idTest}`, { headers });
   }
 
   createTest(testData: TestRequest): Observable<Test> {
@@ -27,14 +27,14 @@ export class TestService {
     return this.http.post<Test>(`${this.baseUrl}`, testData, { headers });
   }
 
-  updateTest(id: string, testData: TestRequest): Observable<Test> {
+  updateTest(idTest: string, testData: TestRequest): Observable<Test> {
     const headers = this.authService.addToken();
-    return this.http.put<Test>(`${this.baseUrl}/${id}`, testData, { headers });
+    return this.http.put<Test>(`${this.baseUrl}/${idTest}`, testData, { headers });
   }
 
-  deleteTest(id: string): Observable<any> {
+  deleteTest(idTest: string): Observable<any> {
     const headers = this.authService.addToken();
-    return this.http.delete(`${this.baseUrl}/${id}`, { headers });
+    return this.http.delete(`${this.baseUrl}/${idTest}`, { headers });
   }
 
 }

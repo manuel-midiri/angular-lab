@@ -24,3 +24,46 @@
     }
 
 }
+
+.container-sample {
+    padding: 80px 100px 50px;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 50px;
+
+        &__title {
+            
+            h1 {
+                font-size: 26px;
+                font-weight: 600;
+            }
+        }
+
+        &__add-sample {
+            display: flex;
+            cursor: pointer;
+
+            &:hover {
+                color: black;
+            }
+
+            p {
+                text-transform: uppercase;
+                margin: 0 0 0 5px;
+            }
+        }
+    }
+    &__container-list {
+        border: 2px solid #e2e0e0;
+        border-radius: 10px;
+
+        &__no-data {
+            padding: 20px;
+            margin-bottom: 0;
+        }
+    }
+
+}

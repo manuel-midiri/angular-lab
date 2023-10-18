@@ -16,4 +16,19 @@
         </div>
     </ng-container>
 </div>
-<p routerLink="/samples">go back</p>
+<div class="container-sample">
+    <div class="container-sample__header">
+        <div class="container-sample__header__title">
+            <h1>Lista test</h1>
+        </div>
+        <div class="container-sample__header__add-sample" (click)="addTest()">
+            <mat-icon>add</mat-icon>
+            <p>Aggiungi test</p>
+        </div>
+    </div>
+    <div class="container-sample__container-list">
+        <ng-container *ngIf="testList && testList.length">
+            <app-table-test [dataSource]="testList" [displayedColumns]="displayedColumns" [isAdmin]="true" (isDelete)="deleteTest($event)" (isEdit)="editTest($event)"></app-table-test>
+        </ng-container>
+    </div>
+</div><p routerLink="/samples">go back</p>

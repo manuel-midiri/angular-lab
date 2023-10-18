@@ -12,6 +12,8 @@ import { DialogDeleteComponent } from './components/dialog-delete/dialog-delete.
 import { DialogCreateComponent } from './components/dialog-create/dialog-create.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogEditComponent } from './components/dialog-edit/dialog-edit.component';
+import { TableTestComponent } from './components/table-test/table-test.component';
+import { DialogCreateTestComponent } from './components/dialog-create-test/dialog-create-test.component';
 
 
 
@@ -20,7 +22,9 @@ import { DialogEditComponent } from './components/dialog-edit/dialog-edit.compon
     TableComponent,
     DialogDeleteComponent,
     DialogCreateComponent,
-    DialogEditComponent
+    DialogEditComponent,
+    TableTestComponent,
+    DialogCreateTestComponent
   ],
   imports: [
     CommonModule,
@@ -42,6 +46,7 @@ import { DialogEditComponent } from './components/dialog-edit/dialog-edit.compon
     MatIconModule,
     MatTableModule,
     TableComponent,
+    TableTestComponent,
     MatDialogModule
   ]
 })

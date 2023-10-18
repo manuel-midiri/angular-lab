@@ -27,7 +27,7 @@ export interface Sample {
   id: string;
   name: string;
   description: string;
-  tests?: Test[];
+  tests: Test[];
 }
 
 export interface Test {

@@ -16,7 +16,7 @@ export class SampleListComponent implements OnInit {
 
   public search: FormControl = new FormControl('');
   public samples: SampleListResult = {} as SampleListResult;
-  public displayedColumns: string[] = ['name', 'description', 'number_test', 'icons'];
+  public displayedColumns: string[] = ['name', 'description', 'number_test', 'actions'];
   public isAdmin: boolean = false;
 
   constructor(public authServices: AuthService, private sampleService: SampleService, public dialog: MatDialog){}

@@ -15,7 +15,7 @@
       <td mat-cell *matCellDef="let element">{{ element.tests.length }}</td>
     </ng-container>
   
-    <ng-container matColumnDef="icons">
+    <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> </th>
       <td mat-cell *matCellDef="let element">
         <mat-icon (click)="viewDetails(element)">info</mat-icon>
