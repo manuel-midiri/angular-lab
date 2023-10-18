@@ -18,6 +18,11 @@
                 <div class="container-general__body__drawer-container-custom__body">
                     <app-breadcrumb></app-breadcrumb>
                     <router-outlet></router-outlet>
+                    <div class="container-general__body__drawer-container-custom__body__logout">
+                        <button mat-fab color="primary" (click)="logout()">
+                            <mat-icon>logout</mat-icon>
+                        </button>
+                    </div>
                 </div>
             </mat-drawer-content>
         </mat-drawer-container>

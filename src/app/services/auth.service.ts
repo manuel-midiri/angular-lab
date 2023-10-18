@@ -22,8 +22,8 @@ export class AuthService {
     return localStorage.getItem('refresh_token_labanalysis')!;
   }
 
-  public getRole(): string {
-    return localStorage.getItem('role')!;
+  public getUser(): string {
+    return localStorage.getItem('user_labanalysis')!;
   }
 
   public saveToken(token: any, expirationDate: any): void {
@@ -36,8 +36,8 @@ export class AuthService {
     localStorage.setItem('refresh_token_labanalysis_expirationDate', expirationDate);
   }
 
-  public saveRole(role: string): void {
-    localStorage.setItem('role', role);
+  public saveUser(user: User): void {
+    localStorage.setItem('user_labanalysis', JSON.stringify(user));
   }
 
   public removeToken(): void {
@@ -50,6 +50,10 @@ export class AuthService {
     localStorage.removeItem('refresh_token_labanalysis_expirationDate');
   }
 
+  public removeUser(): void {
+    localStorage.removeItem('user_labanalysis');
+  }
+
   public addToken(): HttpHeaders {
     const token = 'il_tuo_token';
     return new HttpHeaders({
@@ -60,8 +64,7 @@ export class AuthService {
 
   //LOGIN
   public login(loginData: LoginRequest): Observable<LoginResponse> {
-    this.removeToken();
-    this.removeRefreshToken();
+    this.removeAll();
     const headers: any = new Headers();
     headers.append('Content-Type', 'application/json');
     return this.http.post<LoginResponse>(`${this.API_URL}/Login`, loginData, { headers })
@@ -69,8 +72,7 @@ export class AuthService {
 
   //REFRESH TOKEN
   public refreshToken(refreshData: RefreshTokenRequest): Observable<LoginResponse> {
-    this.removeToken();
-    this.removeRefreshToken();
+    this.removeAll();
     const headers: any = new Headers();
     headers.append('Content-Type', 'application/json');
     return this.http.post<LoginResponse>(`${this.API_URL}/RefreshToken`, refreshData, { headers })
@@ -78,9 +80,8 @@ export class AuthService {
 
   //LOGOUT
   public logout(): Observable<any> {
+    this.removeAll();
     const headers: any = this.addToken();
-    this.removeToken();
-    this.removeRefreshToken();
     return this.http.get(`${this.API_URL}/Logout`, { headers });
   }
 
@@ -104,6 +105,12 @@ export class AuthService {
         `il body è: ${error}`);
     }
     return throwError(() => new Error('Per favore riprova più tardi.'));
+  }
+
+  private removeAll(): void {
+    this.removeToken();
+    this.removeRefreshToken();
+    this.removeUser();
   }
   
 }

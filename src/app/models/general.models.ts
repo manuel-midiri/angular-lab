@@ -23,11 +23,6 @@ export interface RefreshTokenRequest {
   refreshToken: string;
 }
 
-export enum Role {
-  Admin = 'Admin',
-  User = 'User',
-}
-
 export interface Sample {
   id: string;
   name: string;
@@ -45,7 +40,7 @@ export interface User {
   email: string;
   firstName: string;
   lastName: string;
-  roles?: Role[];
+  roles?: string[];
 }
 
 export interface UserRequest {
@@ -54,7 +49,7 @@ export interface UserRequest {
   email: string;
   password: string;
   confirmPassword: string;
-  role: Role;
+  role: string;
 }
 
 export interface SampleListResult {

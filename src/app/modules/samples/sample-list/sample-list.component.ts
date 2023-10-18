@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { switchMap } from 'rxjs';
-import { SampleListResult, SampleRequest } from 'src/app/models/general.models';
+import { SampleListResult, SampleRequest, User } from 'src/app/models/general.models';
 import { AuthService } from 'src/app/services/auth.service';
 import { DialogCreateComponent } from 'src/app/shared/components/dialog-create/dialog-create.component';
 import { SampleService } from 'src/app/shared/services/sample.service';
@@ -17,13 +17,20 @@ export class SampleListComponent implements OnInit {
   public search: FormControl = new FormControl('');
   public samples: SampleListResult = {} as SampleListResult;
   public displayedColumns: string[] = ['name', 'description', 'number_test', 'icons'];
-  public isAdmin: string = '';
+  public isAdmin: boolean = false;
 
   constructor(public authServices: AuthService, private sampleService: SampleService, public dialog: MatDialog){}
 
   ngOnInit(): void {
-    this.isAdmin = this.authServices.getRole();
+    this.checkTypeUser();
     this.getSamples();
+  }
+
+  private checkTypeUser(): void {
+    const user: User = JSON.parse(this.authServices.getUser());
+    console.log('user', user);
+    
+    this.isAdmin = user.roles?.includes('Admin') ? true : false;
   }
 
   public searchSample(): void {

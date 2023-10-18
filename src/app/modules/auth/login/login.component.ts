@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { switchMap, tap } from 'rxjs';
 import { LoginResponse } from 'src/app/models/general.models';
 import { AuthService } from 'src/app/services/auth.service';
@@ -17,7 +18,7 @@ export class LoginComponent implements OnInit {
   public loginForm!: FormGroup;
   public loginError: string = '';
 
-  constructor(private authService: AuthService, private fb: FormBuilder, private cdr: ChangeDetectorRef) {}
+  constructor(private authService: AuthService, private fb: FormBuilder, private cdr: ChangeDetectorRef, private router: Router) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -41,7 +42,8 @@ export class LoginComponent implements OnInit {
         (response: any) => {
           console.log(response);
           this.authService.userDetailBS.next(response);
-          response.roles.includes('Admin') ? this.authService.saveRole('Admin') : this.authService.saveRole('User');
+          this.authService.saveUser(response);
+          this.router.navigate(['samples']);
         },
         (error) => {
           console.error(error);
