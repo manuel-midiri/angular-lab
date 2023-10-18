@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { LoginRequest, LoginResponse, RefreshTokenRequest, User } from '../models/general.models';
-import { Observable, catchError, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private API_URL: string = 'https://frontendtest-backend.azurewebsites.net/api/Users';
-  public userDetail: User = {} as User;
-  public isAdmin: boolean = false;
+  public userDetailBS: BehaviorSubject<User> = new BehaviorSubject<User>({} as User);
+  public userDetail$: Observable<User> = this.userDetailBS.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -22,6 +22,10 @@ export class AuthService {
     return localStorage.getItem('refresh_token_labanalysis')!;
   }
 
+  public getRole(): string {
+    return localStorage.getItem('role')!;
+  }
+
   public saveToken(token: any, expirationDate: any): void {
     localStorage.setItem('access_token_labanalysis', token);
     localStorage.setItem('access_token_labanalysis_expirationDate', expirationDate);
@@ -32,6 +36,10 @@ export class AuthService {
     localStorage.setItem('refresh_token_labanalysis_expirationDate', expirationDate);
   }
 
+  public saveRole(role: string): void {
+    localStorage.setItem('role', role);
+  }
+
   public removeToken(): void {
     localStorage.removeItem('access_token_labanalysis');
     localStorage.removeItem('access_token_labanalysis_expirationDate');
@@ -40,6 +48,14 @@ export class AuthService {
   public removeRefreshToken(): void {
     localStorage.removeItem('refresh_token_labanalysis');
     localStorage.removeItem('refresh_token_labanalysis_expirationDate');
+  }
+
+  public addToken(): HttpHeaders {
+    const token = 'il_tuo_token';
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
   }
 
   //LOGIN
@@ -62,9 +78,7 @@ export class AuthService {
 
   //LOGOUT
   public logout(): Observable<any> {
-    const headers: any = new Headers();
-    headers.append('Content-Type', 'application/json');
-    headers.append('Authorization', 'Bearer ' + this.getToken());
+    const headers: any = this.addToken();
     this.removeToken();
     this.removeRefreshToken();
     return this.http.get(`${this.API_URL}/Logout`, { headers });
@@ -76,9 +90,7 @@ export class AuthService {
   }
 
   public userInfo(): Observable<User> {
-    const headers: any = new Headers();
-    headers.append('Content-Type', 'application/json');
-    headers.append('Authorization', 'Bearer ' + this.getToken());
+    const headers: any = this.addToken();
     return this.http.get<User>(`${this.API_URL}/Me`, { headers })
   }
 

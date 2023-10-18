@@ -40,8 +40,8 @@ export class LoginComponent implements OnInit {
       ).subscribe(
         (response: any) => {
           console.log(response);
-          this.authService.userDetail = response;
-          response.roles.includes('Admin') ? this.authService.isAdmin = true : this.authService.isAdmin = false;
+          this.authService.userDetailBS.next(response);
+          response.roles.includes('Admin') ? this.authService.saveRole('Admin') : this.authService.saveRole('User');
         },
         (error) => {
           console.error(error);

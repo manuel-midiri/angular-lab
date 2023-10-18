@@ -1,28 +1,26 @@
 <div class="container-search">
     <p class="container-search__title">Cerca un sample</p>
-    <form class="container-search__form">
+    <form class="container-search__form" (ngSubmit)="searchSample()">
         <mat-form-field appearance="outline">
-          <mat-label>Sample</mat-label>
+          <mat-label>Sample name</mat-label>
           <input type="search" matInput placeholder="Cerca un sample" [formControl]="search">
         </mat-form-field>
         <button mat-raised-button color="primary" type="submit">CERCA</button>
-      </form>
+    </form>
 </div>
 <div class="container-sample">
     <div class="container-sample__header">
         <div class="container-sample__header__title">
             <h1>Lista sample</h1>
         </div>
-        <div class="container-sample__header__add-sample">
+        <div class="container-sample__header__add-sample" (click)="addSample()">
             <mat-icon>add</mat-icon>
             <p>Aggiungi sample</p>
         </div>
     </div>
     <div class="container-sample__container-list">
         <ng-container *ngIf="samples && samples.items && samples.items.length; else noData">
-            <app-table [dataSource]="samples.items" [displayedColumns]="displayedColumns" [isAdmin]="true"></app-table>
-            <!-- <ng-container *ngFor="let sample of samples.items">
-            </ng-container> -->
+            <app-table [dataSource]="samples.items" [displayedColumns]="displayedColumns" [isAdmin]="isAdmin === 'Admin'" (isDelete)="deleteSample($event)" (isEdit)="editSample($event)"></app-table>
         </ng-container>
         <ng-template #noData>
             <p class="container-sample__container-list__no-data">Non ci sono risultati.</p>

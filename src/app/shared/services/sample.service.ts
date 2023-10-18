@@ -2,33 +2,40 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Sample, SampleListResult, SampleRequest } from 'src/app/models/general.models';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SampleService {
-  private baseUrl = '/api/Samples';
+  private baseUrl = 'https://frontendtest-backend.azurewebsites.net/api/Samples';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
-  getSamples(): Observable<SampleListResult> {
-    return this.http.get<SampleListResult>(`${this.baseUrl}`);
+  getSamples(searchValue?: string): Observable<SampleListResult> {
+    const headers = this.authService.addToken();
+    const url = searchValue ? this.baseUrl + `?name=${searchValue}` : this.baseUrl;
+    return this.http.get<SampleListResult>(`${url}`, { headers });
   }
 
   getSampleById(id: string): Observable<Sample> {
-    return this.http.get<Sample>(`${this.baseUrl}/${id}`);
+    const headers = this.authService.addToken();
+    return this.http.get<Sample>(`${this.baseUrl}/${id}`, { headers });
   }
 
   createSample(sampleData: SampleRequest): Observable<Sample> {
-    return this.http.post<Sample>(`${this.baseUrl}`, sampleData);
+    const headers = this.authService.addToken();
+    return this.http.post<Sample>(`${this.baseUrl}`, sampleData, { headers });
   }
 
   updateSample(id: string, sampleData: SampleRequest): Observable<Sample> {
-    return this.http.put<Sample>(`${this.baseUrl}/${id}`, sampleData);
+    const headers = this.authService.addToken();
+    return this.http.put<Sample>(`${this.baseUrl}/${id}`, sampleData, { headers });
   }
 
   deleteSample(id: string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`);
+    const headers = this.authService.addToken();
+    return this.http.delete(`${this.baseUrl}/${id}`, { headers });
   }
   
 }

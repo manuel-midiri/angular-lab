@@ -6,11 +6,11 @@
                 <div class="container-general__body__drawer-container-custom__side__container-logo">
                     <img src="../assets/images/logo/labanalysis_logo.svg" alt="Logo Labanalysis">
                 </div>
-                <div class="container-general__body__drawer-container-custom__side__container-user">
+                <div *ngIf="userData && userData.email" class="container-general__body__drawer-container-custom__side__container-user">
                     <img src="../assets/images/user.jpg" alt="User icon">
                     <div class="container-general__body__drawer-container-custom__side__container-user__info">
-                        <p>Mario Rossi</p>
-                        <p title="mario.rossimario.rossi@email.com">mario.rossimario.rossi@email.com</p>
+                        <p>{{ userData.firstName }}  {{ userData.lastName }}</p>
+                        <p [title]="userData.email">{{ userData.email }}</p>
                     </div>
                 </div>
             </mat-drawer>

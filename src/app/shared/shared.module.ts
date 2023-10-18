@@ -8,10 +8,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TableComponent } from './components/table/table.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { DialogDeleteComponent } from './components/dialog-delete/dialog-delete.component';
 import { DialogCreateComponent } from './components/dialog-create/dialog-create.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { DialogEditComponent } from './components/dialog-edit/dialog-edit.component';
 
 
 
@@ -19,7 +19,8 @@ import { MatDialogModule } from '@angular/material/dialog';
   declarations: [
     TableComponent,
     DialogDeleteComponent,
-    DialogCreateComponent
+    DialogCreateComponent,
+    DialogEditComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +31,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatButtonModule,
     MatIconModule,
     MatTableModule,
-    MatPaginatorModule,
     MatDialogModule
   ], 
   exports: [
@@ -42,7 +42,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatIconModule,
     MatTableModule,
     TableComponent,
-    MatPaginatorModule,
     MatDialogModule
   ]
 })
