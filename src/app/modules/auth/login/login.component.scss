@@ -1,5 +1,5 @@
 .container-form {
-    height: 100%;
+    height: calc(100% - 62px);
     width: 100%;
     display: flex;
     justify-content: center;
@@ -7,7 +7,7 @@
     position: relative;
     &__title {
         position: absolute;
-        top: 150px;
+        top: 20%;
         left: 50%;
         transform: translateX(-50%);
         font-size: 30px;

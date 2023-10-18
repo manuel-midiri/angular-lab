@@ -11,20 +11,20 @@ export class TestService {
 
   constructor(private http: HttpClient) {}
 
-  getTests(): Observable<any> {
-    return this.http.get(`${this.baseUrl}`);
+  getTests(): Observable<TestListResult> {
+    return this.http.get<TestListResult>(`${this.baseUrl}`);
   }
 
-  getTestById(id: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${id}`);
+  getTestById(id: string): Observable<Test> {
+    return this.http.get<Test>(`${this.baseUrl}/${id}`);
   }
 
-  createTest(testData: { sampleId: string, name: string }): Observable<any> {
-    return this.http.post(`${this.baseUrl}`, testData);
+  createTest(testData: TestRequest): Observable<Test> {
+    return this.http.post<Test>(`${this.baseUrl}`, testData);
   }
 
-  updateTest(id: string, testData: { sampleId: string, name: string }): Observable<any> {
-    return this.http.put(`${this.baseUrl}/${id}`, testData);
+  updateTest(id: string, testData: TestRequest): Observable<Test> {
+    return this.http.put<Test>(`${this.baseUrl}/${id}`, testData);
   }
 
   deleteTest(id: string): Observable<any> {

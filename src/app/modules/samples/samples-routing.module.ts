@@ -5,7 +5,8 @@ import { DetailSampleComponent } from './detail-sample/detail-sample.component';
 
 const routes: Routes = [
   { path: '', component: SampleListComponent },
-  { path: ':id', component: DetailSampleComponent }
+  { path: ':id', component: DetailSampleComponent },
+  { path: 'edit/:id', component: DetailSampleComponent }
 ];
 
 @NgModule({

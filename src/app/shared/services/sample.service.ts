@@ -11,20 +11,20 @@ export class SampleService {
 
   constructor(private http: HttpClient) { }
 
-  getSamples(): Observable<any> {
-    return this.http.get(`${this.baseUrl}`);
+  getSamples(): Observable<SampleListResult> {
+    return this.http.get<SampleListResult>(`${this.baseUrl}`);
   }
 
-  getSampleById(id: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${id}`);
+  getSampleById(id: string): Observable<Sample> {
+    return this.http.get<Sample>(`${this.baseUrl}/${id}`);
   }
 
-  createSample(sampleData: { name: string, description: string }): Observable<any> {
-    return this.http.post(`${this.baseUrl}`, sampleData);
+  createSample(sampleData: SampleRequest): Observable<Sample> {
+    return this.http.post<Sample>(`${this.baseUrl}`, sampleData);
   }
 
-  updateSample(id: string, sampleData: { name: string, description: string }): Observable<any> {
-    return this.http.put(`${this.baseUrl}/${id}`, sampleData);
+  updateSample(id: string, sampleData: SampleRequest): Observable<Sample> {
+    return this.http.put<Sample>(`${this.baseUrl}/${id}`, sampleData);
   }
 
   deleteSample(id: string): Observable<any> {

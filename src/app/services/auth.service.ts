@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { LoginRequest, RefreshTokenRequest, User } from '../models/general.models';
+import { LoginRequest, LoginResponse, RefreshTokenRequest, User } from '../models/general.models';
 import { Observable, catchError, throwError } from 'rxjs';
 
 @Injectable({
@@ -43,21 +43,21 @@ export class AuthService {
   }
 
   //LOGIN
-  public login(loginData: LoginRequest): Observable<any> {
+  public login(loginData: LoginRequest): Observable<LoginResponse> {
     this.removeToken();
     this.removeRefreshToken();
     const headers: any = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post(`${this.API_URL}/Login`, loginData, { headers })
+    return this.http.post<LoginResponse>(`${this.API_URL}/Login`, loginData, { headers })
   }
 
   //REFRESH TOKEN
-  public refreshToken(refreshData: RefreshTokenRequest): Observable<any> {
+  public refreshToken(refreshData: RefreshTokenRequest): Observable<LoginResponse> {
     this.removeToken();
     this.removeRefreshToken();
     const headers: any = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post<any>(`${this.API_URL}/RefreshToken`, refreshData, { headers })
+    return this.http.post<LoginResponse>(`${this.API_URL}/RefreshToken`, refreshData, { headers })
   }
 
   //LOGOUT
@@ -75,11 +75,11 @@ export class AuthService {
       .pipe(catchError((error: any) => this.handleError(error)));
   }
 
-  public userInfo(): Observable<any> {
+  public userInfo(): Observable<User> {
     const headers: any = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', 'Bearer ' + this.getToken());
-    return this.http.get(`${this.API_URL}/Me`, { headers })
+    return this.http.get<User>(`${this.API_URL}/Me`, { headers })
   }
 
   //GESTIONE ERRORI

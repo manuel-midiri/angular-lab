@@ -1,1 +1,76 @@
-<p>table works!</p>
+<!-- <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+  </mat-form-field> -->
+  <!-- <section class="example-container mat-elevation-z8" tabindex="0">
+    <table mat-table [dataSource]="dataSource" >
+    
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> Description </th>
+        <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="number_test">
+        <th mat-header-cell *matHeaderCellDef> Number Test </th>
+        <td mat-cell *matCellDef="let element"> {{element.tests.length}} </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">Non ci sono risultati</td>
+      </tr>
+    </table>
+  <mat-paginator [length]="dataSource.data.length"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="pageSizeOptions"
+  showFirstLastButtons
+  class="sticky-paginator">
+</mat-paginator>
+  </section>
+   -->
+
+   <!-- table.component.html -->
+<section class="container-table">
+  <table mat-table [dataSource]="dataSource">
+    <!-- Columns -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Nome</th>
+      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Descrizione</th>
+      <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="number_test">
+      <th mat-header-cell *matHeaderCellDef>Numbero Test</th>
+      <td mat-cell *matCellDef="let element">{{ element.tests.length }}</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="icons">
+      <th mat-header-cell *matHeaderCellDef> </th>
+      <td mat-cell *matCellDef="let element">
+        <mat-icon (click)="viewDetails(element)">info</mat-icon>
+        <mat-icon *ngIf="isAdmin" (click)="editItem(element)">edit_square</mat-icon>
+        <mat-icon *ngIf="isAdmin" (click)="deleteItem(element)">delete</mat-icon>
+      </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+  <mat-paginator [length]="dataSource.length"
+                 [pageSize]="pageSize"
+                 [pageSizeOptions]="pageSizeOptions"
+                 showFirstLastButtons
+                 class="container-table__sticky-paginator">
+  </mat-paginator>
+</section>

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { SamplesRoutingModule } from './samples-routing.module';
 import { SampleListComponent } from './sample-list/sample-list.component';
 import { DetailSampleComponent } from './detail-sample/detail-sample.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { DetailSampleComponent } from './detail-sample/detail-sample.component';
   ],
   imports: [
     CommonModule,
-    SamplesRoutingModule
+    SamplesRoutingModule,
+    SharedModule
   ]
 })
 export class SamplesModule { }

@@ -1,17 +1,31 @@
-<ul>
-    <li>
-        <p routerLink="123456">sample 123456</p>
-    </li>
-    <li>
-        <p routerLink="234567">sample 234567</p>
-    </li>
-    <li>
-        <p routerLink="345678">sample 345678</p>
-    </li>
-    <li>
-        <p routerLink="456789">sample 456789</p>
-    </li>
-    <li>
-        <p routerLink="567890">sample 567890</p>
-    </li>
-</ul>
+<div class="container-search">
+    <p class="container-search__title">Cerca un sample</p>
+    <form class="container-search__form">
+        <mat-form-field appearance="outline">
+          <mat-label>Sample</mat-label>
+          <input type="search" matInput placeholder="Cerca un sample" [formControl]="search">
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">CERCA</button>
+      </form>
+</div>
+<div class="container-sample">
+    <div class="container-sample__header">
+        <div class="container-sample__header__title">
+            <h1>Lista sample</h1>
+        </div>
+        <div class="container-sample__header__add-sample">
+            <mat-icon>add</mat-icon>
+            <p>Aggiungi sample</p>
+        </div>
+    </div>
+    <div class="container-sample__container-list">
+        <ng-container *ngIf="samples && samples.items && samples.items.length; else noData">
+            <app-table [dataSource]="samples.items" [displayedColumns]="displayedColumns" [isAdmin]="true"></app-table>
+            <!-- <ng-container *ngFor="let sample of samples.items">
+            </ng-container> -->
+        </ng-container>
+        <ng-template #noData>
+            <p class="container-sample__container-list__no-data">Non ci sono risultati.</p>
+        </ng-template>
+    </div>
+</div>

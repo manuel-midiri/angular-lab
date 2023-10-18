@@ -15,8 +15,6 @@ export class BreadcrumbService {
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
       const breadcrumbs = this.createBreadcrumbs(this.router.routerState.snapshot.root);
-      console.log('breadcrumbs', this.router.routerState);
-      
       this.breadcrumbsSubject.next(breadcrumbs);
     });
   }
