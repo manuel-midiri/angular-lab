@@ -20,23 +20,30 @@ export class BreadcrumbService {
   }
 
   private createBreadcrumbs(route: ActivatedRouteSnapshot, url: string = '', breadcrumbs: any[] = []): any[] {
-
     const children: ActivatedRouteSnapshot[] = route.children;
-
+  
     if (children.length === 0) {
       return breadcrumbs;
     }
-
+  
     for (const child of children) {
       const routeURL: string = child.url.map(segment => segment.path).join('/');
       if (routeURL !== '') {
         url += `/${routeURL}`;
-        breadcrumbs.push({ label: routeURL, url: url });
+        const paths: string[] = url.split('/');
+        for (let i = 0; i < paths.length; i++) {
+          const breadcrumbUrl = paths.slice(0, i + 1).join('/');
+          const label = paths[i];
+          if (label !== '' && !breadcrumbs.find(b => b.url === breadcrumbUrl)) {
+            breadcrumbs.push({ label: label, url: breadcrumbUrl });
+          }
+        }
       }
-
+  
       return this.createBreadcrumbs(child, url, breadcrumbs);
     }
     return breadcrumbs;
   }
+  
 
 }

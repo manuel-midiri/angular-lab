@@ -11,10 +11,6 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  private userCredential = { email: 'user@labanalysis.it', password: '03Iw91fypX^b' };
-  private adminCredential = { email: 'admin@labanalysis.it', password: '&9GDWy9D6kUs' };
-
-  private localCredentials = this.userCredential;
   public loginForm!: FormGroup;
   public loginError: string = '';
 

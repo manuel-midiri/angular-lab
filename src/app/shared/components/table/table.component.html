@@ -27,7 +27,7 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
-  <div *ngIf="dataSource.length === 0" class="container-table__no-results">
+  <div *ngIf="dataSource && dataSource.length === 0" class="container-table__no-results">
     Nessun risultato trovato.
   </div>
 </section>

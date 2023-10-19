@@ -5,8 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MenuComponent } from './core/menu/menu.component';
-
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -19,7 +17,6 @@ import { BreadcrumbComponent } from './core/breadcrumb/breadcrumb.component';
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent,
     BreadcrumbComponent
   ],
   imports: [
