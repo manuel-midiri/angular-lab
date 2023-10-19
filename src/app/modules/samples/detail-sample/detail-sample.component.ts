@@ -50,7 +50,7 @@ export class DetailSampleComponent implements OnInit {
   }
 
   public addTest(): void {
-    const dialogRef = this.dialog.open(DialogCreateTestComponent);
+    const dialogRef = this.dialog.open(DialogCreateTestComponent, {disableClose: true});
     dialogRef.afterClosed().subscribe((test: any) => {
       const requestCreate: TestRequest = {
         sampleId: this.sampleId,

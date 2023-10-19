@@ -40,7 +40,7 @@ export class SampleListComponent implements OnInit {
   }
 
   public addSample(): void {
-    const dialogRef = this.dialog.open(DialogCreateComponent);
+    const dialogRef = this.dialog.open(DialogCreateComponent, {disableClose: true});
     dialogRef.afterClosed().subscribe((sample: SampleRequest) => {
       if (sample) {
         this.sampleService.createSample(sample).pipe(

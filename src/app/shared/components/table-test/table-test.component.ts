@@ -33,6 +33,7 @@ export class TableTestComponent {
   public openDialogDelete(element: Sample): void {
     const dialogRef = this.dialog.open(DialogDeleteComponent, {
       data: {name: element.name},
+      disableClose: true
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -45,6 +46,7 @@ export class TableTestComponent {
   public openDialogEdit(element: Sample): void {
     const dialogRef = this.dialog.open(DialogCreateTestComponent, {
       data: {name: element.name},
+      disableClose: true
     });
 
     dialogRef.afterClosed().subscribe(result => {

@@ -1,7 +1,7 @@
 <h2 mat-dialog-title>Aggiungi un sample</h2>
 <div mat-dialog-content>
     <p>Riempi il modulo sottostante per agigungere un sample alla lista</p>
-    <div>
+    <div class="container-form">
         <form [formGroup]="createSampleForm">
             <mat-form-field appearance="outline">
                 <mat-label>Nome</mat-label>
@@ -20,7 +20,7 @@
         </form>
     </div>
 </div>
-<div mat-dialog-actions>
-  <button mat-button mat-dialog-close cdkFocusInitial>Annulla</button>
-  <button mat-button (click)="onClick()">Invia</button>
+<div class="container-button" mat-dialog-actions>
+  <button class="container-button__cancel" mat-button mat-dialog-close cdkFocusInitial>Annulla</button>
+  <button class="container-button__success" mat-button (click)="onClick()">Invia</button>
 </div>

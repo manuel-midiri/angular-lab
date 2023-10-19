@@ -15,7 +15,6 @@
 
     &__form {
         display: flex;
-        // align-items: center;
     }
 
     mat-form-field {
@@ -51,9 +50,10 @@
         &__add-sample {
             display: flex;
             cursor: pointer;
+            transition: all .2s ease;
 
             &:hover {
-                color: black;
+                color: #a9c8a6;
             }
 
             p {
