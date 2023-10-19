@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
   }
 
   public logout(): void {
-    this.authService.logout();
+    this.authService.logout().subscribe(() => this.authService.removeAll());
     this.router.navigate(['login']);
   }
 

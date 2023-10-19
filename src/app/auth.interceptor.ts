@@ -1,66 +1,81 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor,
-  HttpResponse,
-  HttpErrorResponse
-} from '@angular/common/http';
-import { Observable, catchError, map, throwError } from 'rxjs';
-import { Router } from '@angular/router';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
+import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
+import { RefreshTokenRequest } from './models/general.models';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+  private refreshTokenInProgress = false;
+  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  constructor(private authService: AuthService) {}
 
-  constructor(private router: Router, private authService: AuthService) {}
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const refreshToken = localStorage.getItem('refresh_token_labanalysis')!;
+    const accessToken = localStorage.getItem('access_token_labanalysis')!;
+    const refreshData: RefreshTokenRequest = { accessToken, refreshToken };
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): any {
+    if (accessToken && !this.isTokenExpired()) {
+      request = this.addAuthenticationToken(request, accessToken);
+    }
+    return next.handle(request).pipe(catchError(error => {
+      if (error.status === 401 && this.isTokenExpired()) {
+        if (this.refreshTokenInProgress) {
+          return this.refreshTokenSubject.pipe(
+            filter(result => result !== null),
+            take(1),
+            switchMap(() => next.handle(this.addAuthenticationToken(request, accessToken)))
+          );
+        } else {
+          this.refreshTokenInProgress = true;
+          this.refreshTokenSubject.next(null);
 
-    const token = this.authService.getToken();
-    const refreshToken = this.authService.getRefreshToken();
+          return this.authService.refreshToken(refreshData).pipe(
+            switchMap((tokenResponse: any) => {
+              this.refreshTokenInProgress = false;
+              this.refreshTokenSubject.next(tokenResponse.accessToken);
 
-    if (token) {
-        request = request.clone({
-            setHeaders: {
-                Authorization: 'Bearer ' + token
-            }
-        });
+              localStorage.setItem('access_token_labanalysis', tokenResponse.accessToken);
+              localStorage.setItem('refresh_token_labanalysis', tokenResponse.refreshToken);
+              localStorage.setItem('access_token_labanalysis_expirationDate', tokenResponse.accessTokenExpirationDate);
+              localStorage.setItem('refresh_token_labanalysis_expirationDate', tokenResponse.refreshTokenExpirationDate);
+
+              return next.handle(this.addAuthenticationToken(request, tokenResponse.accessToken));
+            }),
+            catchError((err: any) => {
+              this.refreshTokenInProgress = false;
+              return throwError(err);
+            })
+          );
+        }
+      } else {
+        return throwError(error);
+      }
+    }));
+  }
+
+  addAuthenticationToken(request: HttpRequest<any>, token: string): HttpRequest<any> {
+    if (!token) {
+      return request;
     }
 
-    if (!request.headers.has('Content-Type')) {
-        request = request.clone({
-            setHeaders: {
-                'content-type': 'application/json'
-            }
-        });
-    }
-
-    request = request.clone({
-        headers: request.headers.set('Accept', 'application/json')
+    return request.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
     });
-
-    return next.handle(request).pipe(
-        map((event: HttpEvent<any>) => {
-            if (event instanceof HttpResponse) {
-                console.log('event--->>>', event);
-            }
-            return event;
-        }),
-        catchError((error: HttpErrorResponse) => {
-            console.log(error.error.error);
-            if (error.status === 401) {
-                if (error.error.error === 'invalid_token') {
-                    this.authService.refreshToken({ accessToken: token, refreshToken })
-                        .subscribe(() => {
-                            location.reload();
-                        });
-                } else {
-                    this.router.navigate(['login']).then(_ => console.log('redirect to login'));
-                }
-            }
-            return throwError(() => new Error(error.error.error));
-        }));
-}
+  }
+  
+  isTokenExpired(): boolean {
+    const expirationDate = new Date(localStorage.getItem('access_token_labanalysis_expirationDate')!).toISOString();
+    const currentDate = new Date().toISOString();
+    return expirationDate < currentDate;
+  }
+  
+  
+  
+  
+  
+  
 }

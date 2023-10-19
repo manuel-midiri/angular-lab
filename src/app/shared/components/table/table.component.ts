@@ -20,15 +20,12 @@ export class TableComponent {
   constructor(private router: Router, public dialog: MatDialog){}
 
   public viewDetails(element: Sample){
-    console.log('viewDetails', element);
     this.router.navigate(['samples', element.id])
   }
   public editItem(element: Sample){
-    console.log('editItem', element);
     this.openDialogEdit(element);
   }
   public deleteItem(element: Sample){
-    console.log('deleteItem', element);
     this.openDialogDelete(element);
   }
 

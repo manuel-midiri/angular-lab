@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params } from '@angular/router';
 import { switchMap, tap } from 'rxjs';
-import { Sample, Test, TestRequest } from 'src/app/models/general.models';
+import { Sample, Test, TestRequest, User } from 'src/app/models/general.models';
+import { AuthService } from 'src/app/services/auth.service';
 import { DialogCreateTestComponent } from 'src/app/shared/components/dialog-create-test/dialog-create-test.component';
 import { SampleService } from 'src/app/shared/services/sample.service';
 import { TestService } from 'src/app/shared/services/test.service';
@@ -18,8 +19,10 @@ export class DetailSampleComponent implements OnInit {
   public sampleDetail: Sample = {} as Sample;
   public testList: Test[] = [];
   public displayedColumns: string[] = ['id', 'name', 'actions'];
+  public isAdmin: boolean = false;
 
   constructor(
+    private authServices: AuthService,
     private sampleService: SampleService,
     private testService: TestService,
     private activatedRouter: ActivatedRoute, 
@@ -27,7 +30,13 @@ export class DetailSampleComponent implements OnInit {
   ){}
 
   ngOnInit(): void {
+    this.checkTypeUser();
     this.getSampleDetail();
+  }
+
+  private checkTypeUser(): void {
+    const user: User = JSON.parse(this.authServices.getUser());
+    this.isAdmin = user.roles?.includes('Admin') ? true : false;
   }
 
   public getSampleDetail(): void {

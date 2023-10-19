@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Sample, SampleListResult, SampleRequest } from 'src/app/models/general.models';
@@ -13,29 +13,24 @@ export class SampleService {
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   getSamples(searchValue?: string): Observable<SampleListResult> {
-    const headers = this.authService.addToken();
     const url = searchValue ? this.baseUrl + `?name=${searchValue}` : this.baseUrl;
-    return this.http.get<SampleListResult>(`${url}`, { headers });
+    return this.http.get<SampleListResult>(`${url}`);
   }
 
   getSampleById(id: string): Observable<Sample> {
-    const headers = this.authService.addToken();
-    return this.http.get<Sample>(`${this.baseUrl}/${id}`, { headers });
+    return this.http.get<Sample>(`${this.baseUrl}/${id}`);
   }
 
   createSample(sampleData: SampleRequest): Observable<Sample> {
-    const headers = this.authService.addToken();
-    return this.http.post<Sample>(`${this.baseUrl}`, sampleData, { headers });
+    return this.http.post<Sample>(`${this.baseUrl}`, sampleData);
   }
 
   updateSample(id: string, sampleData: SampleRequest): Observable<Sample> {
-    const headers = this.authService.addToken();
-    return this.http.put<Sample>(`${this.baseUrl}/${id}`, sampleData, { headers });
+    return this.http.put<Sample>(`${this.baseUrl}/${id}`, sampleData);
   }
 
   deleteSample(id: string): Observable<any> {
-    const headers = this.authService.addToken();
-    return this.http.delete(`${this.baseUrl}/${id}`, { headers });
+    return this.http.delete(`${this.baseUrl}/${id}`);
   }
   
 }

@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Test, TestListResult, TestRequest } from 'src/app/models/general.models';
@@ -13,28 +13,23 @@ export class TestService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   getTests(): Observable<TestListResult> {
-    const headers = this.authService.addToken();
-    return this.http.get<TestListResult>(`${this.baseUrl}`, { headers });
+    return this.http.get<TestListResult>(`${this.baseUrl}`);
   }
 
   getTestById(idTest: string): Observable<Test> {
-    const headers = this.authService.addToken();
-    return this.http.get<Test>(`${this.baseUrl}/${idTest}`, { headers });
+    return this.http.get<Test>(`${this.baseUrl}/${idTest}`);
   }
 
   createTest(testData: TestRequest): Observable<Test> {
-    const headers = this.authService.addToken();
-    return this.http.post<Test>(`${this.baseUrl}`, testData, { headers });
+    return this.http.post<Test>(`${this.baseUrl}`, testData);
   }
 
   updateTest(idTest: string, testData: TestRequest): Observable<Test> {
-    const headers = this.authService.addToken();
-    return this.http.put<Test>(`${this.baseUrl}/${idTest}`, testData, { headers });
+    return this.http.put<Test>(`${this.baseUrl}/${idTest}`, testData);
   }
 
   deleteTest(idTest: string): Observable<any> {
-    const headers = this.authService.addToken();
-    return this.http.delete(`${this.baseUrl}/${idTest}`, { headers });
+    return this.http.delete(`${this.baseUrl}/${idTest}`);
   }
 
 }

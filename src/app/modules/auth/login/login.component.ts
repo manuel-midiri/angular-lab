@@ -40,7 +40,6 @@ export class LoginComponent implements OnInit {
         switchMap(() => this.authService.userInfo())
       ).subscribe(
         (response: any) => {
-          console.log(response);
           this.authService.userDetailBS.next(response);
           this.authService.saveUser(response);
           this.router.navigate(['samples']);

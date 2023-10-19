@@ -19,8 +19,6 @@
         </div>
     </div>
     <div class="container-sample__container-list">
-        <ng-container *ngIf="samples && samples.items && samples.items.length">
-            <app-table [dataSource]="samples.items" [displayedColumns]="displayedColumns" [isAdmin]="isAdmin" (isDelete)="deleteSample($event)" (isEdit)="editSample($event)"></app-table>
-        </ng-container>
+        <app-table [dataSource]="samples.items" [displayedColumns]="displayedColumns" [isAdmin]="isAdmin" (isDelete)="deleteSample($event)" (isEdit)="editSample($event)"></app-table>
     </div>
 </div>

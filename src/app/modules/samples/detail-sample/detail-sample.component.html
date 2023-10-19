@@ -27,8 +27,6 @@
         </div>
     </div>
     <div class="container-sample__container-list">
-        <ng-container *ngIf="testList && testList.length">
-            <app-table-test [dataSource]="testList" [displayedColumns]="displayedColumns" [isAdmin]="true" (isDelete)="deleteTest($event)" (isEdit)="editTest($event)"></app-table-test>
-        </ng-container>
+        <app-table-test [dataSource]="testList" [displayedColumns]="displayedColumns" [isAdmin]="isAdmin" (isDelete)="deleteTest($event)" (isEdit)="editTest($event)"></app-table-test>
     </div>
 </div><p routerLink="/samples">go back</p>

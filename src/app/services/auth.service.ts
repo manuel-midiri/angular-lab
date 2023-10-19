@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoginRequest, LoginResponse, RefreshTokenRequest, User } from '../models/general.models';
-import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, tap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -54,60 +54,31 @@ export class AuthService {
     localStorage.removeItem('user_labanalysis');
   }
 
-  public addToken(): HttpHeaders {
-    const token = 'il_tuo_token';
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    });
-  }
-
   //LOGIN
   public login(loginData: LoginRequest): Observable<LoginResponse> {
-    this.removeAll();
-    const headers: any = new Headers();
-    headers.append('Content-Type', 'application/json');
-    return this.http.post<LoginResponse>(`${this.API_URL}/Login`, loginData, { headers })
+    return this.http.post<LoginResponse>(`${this.API_URL}/Login`, loginData)
   }
 
   //REFRESH TOKEN
   public refreshToken(refreshData: RefreshTokenRequest): Observable<LoginResponse> {
-    this.removeAll();
-    const headers: any = new Headers();
-    headers.append('Content-Type', 'application/json');
-    return this.http.post<LoginResponse>(`${this.API_URL}/RefreshToken`, refreshData, { headers })
+    return this.http.post<LoginResponse>(`${this.API_URL}/RefreshToken`, refreshData).pipe(
+      catchError(error => {
+        return throwError(error);
+      })
+    );
   }
+  
 
   //LOGOUT
   public logout(): Observable<any> {
-    this.removeAll();
-    const headers: any = this.addToken();
-    return this.http.get(`${this.API_URL}/Logout`, { headers });
-  }
-
-  public secured(): Observable<any> {
-    return this.http.get<any>(this.API_URL + 'secret')
-      .pipe(catchError((error: any) => this.handleError(error)));
+    return this.http.get(`${this.API_URL}/Logout`);
   }
 
   public userInfo(): Observable<User> {
-    const headers: any = this.addToken();
-    return this.http.get<User>(`${this.API_URL}/Me`, { headers })
+    return this.http.get<User>(`${this.API_URL}/Me`)
   }
 
-  //GESTIONE ERRORI
-  private handleError(error: HttpErrorResponse): any {
-    if (error.error instanceof ErrorEvent) {
-      console.error('Si è verificato un errore:', error.error.message);
-    } else {
-      console.error(
-        `Backend ritorna codice ${error.status}, ` +
-        `il body è: ${error}`);
-    }
-    return throwError(() => new Error('Per favore riprova più tardi.'));
-  }
-
-  private removeAll(): void {
+  public removeAll(): void {
     this.removeToken();
     this.removeRefreshToken();
     this.removeUser();

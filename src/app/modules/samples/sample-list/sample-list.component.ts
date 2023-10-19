@@ -28,8 +28,6 @@ export class SampleListComponent implements OnInit {
 
   private checkTypeUser(): void {
     const user: User = JSON.parse(this.authServices.getUser());
-    console.log('user', user);
-    
     this.isAdmin = user.roles?.includes('Admin') ? true : false;
   }
 
