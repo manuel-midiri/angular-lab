@@ -6,8 +6,7 @@ import { DetailSampleComponent } from './detail-sample/detail-sample.component';
 const routes: Routes = [
   { path: '', redirectTo: '/samples', pathMatch: 'full' },
   { path: 'samples', component: SampleListComponent },
-  { path: 'samples/:id', component: DetailSampleComponent },
-  { path: 'edit/:id', component: DetailSampleComponent }
+  { path: 'samples/:id', component: DetailSampleComponent }
 ];
 
 @NgModule({
