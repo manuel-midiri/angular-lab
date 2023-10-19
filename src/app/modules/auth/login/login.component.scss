@@ -24,6 +24,10 @@
         flex-direction: column;
         margin: 0 auto;
         width: 250px;
+        background-color: #fff;
+        padding: 60px 40px;
+        border-radius: 10px;
+        border: 2px solid #e2e0e0;
     
         @media (min-width: 990px) {
             width: 500px;
