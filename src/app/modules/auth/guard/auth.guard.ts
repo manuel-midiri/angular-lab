@@ -16,9 +16,7 @@ export class AuthGuard {
     if (this.authService.getRefreshToken()) {
       return true;
     }
-    this.router
-      .navigate(['/login'])
-      .then(() => console.log('Redirect to login'));
+    this.router.navigate(['/login']).then();
 
     return false;
   }
