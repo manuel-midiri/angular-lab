@@ -13,7 +13,7 @@
         <div class="container-sample__header__title">
             <h1>Lista sample</h1>
         </div>
-        <div class="container-sample__header__add-sample" (click)="addSample()">
+        <div *ngIf="isAdmin" class="container-sample__header__add-sample" (click)="addSample()">
             <mat-icon>add</mat-icon>
             <p>Aggiungi sample</p>
         </div>

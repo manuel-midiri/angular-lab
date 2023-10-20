@@ -21,7 +21,7 @@
         <div class="container-sample__header__title">
             <h1>Lista test</h1>
         </div>
-        <div class="container-sample__header__add-sample" (click)="addTest()">
+        <div *ngIf="isAdmin" class="container-sample__header__add-sample" (click)="addTest()">
             <mat-icon>add</mat-icon>
             <p>Aggiungi test</p>
         </div>

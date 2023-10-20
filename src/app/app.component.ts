@@ -20,8 +20,10 @@ export class AppComponent implements OnInit {
       this.authService.userDetailBS.next(JSON.parse(this.authService.getUser()));
     }
     this.authService.userDetail$.subscribe((userDetail: User) => {
-      this.userData = userDetail;
-      this.isVisible = true;
+      if (userDetail && userDetail.id) {
+        this.userData = userDetail;
+        this.isVisible = true;
+      }
     });
   }
 
@@ -29,6 +31,7 @@ export class AppComponent implements OnInit {
     this.authService.logout().subscribe(() => this.authService.removeAll());
     this.router.navigate(['login']);
     this.isVisible = false;
+    this.userData = {} as User;
   }
 
 }
